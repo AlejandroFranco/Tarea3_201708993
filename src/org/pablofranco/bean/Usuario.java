@@ -1,8 +1,7 @@
 package org.pablofranco.bean;
 
 public class Usuario {
-    public Usuario() {
-    }
+
 
     private String nombreUsuario;
 
