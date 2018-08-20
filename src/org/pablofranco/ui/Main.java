@@ -5,17 +5,16 @@ package org.pablofranco.ui;
 import org.pablofranco.bean.Estudiante;
 import org.pablofranco.bean.Usuario;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
 
 public class Main {
-    public static Vector<Usuario> vectorUsuarios = new Vector<Usuario>(5, 0);
-    public static Vector<Estudiante> vectorEstudiantes = new Vector<Estudiante>(6, 0);
+    private static Vector<Usuario> vectorUsuarios = new Vector<Usuario>(5, 0);
+    private static Vector<Estudiante> vectorEstudiantes = new Vector<Estudiante>(6, 0);
     static int numero1;
     static int numero2;
     static int numero3;
+    static String[] partes;
+    static Vector<String> numerosGuardados = new Vector<String>();
 
 
     public static void main(String[] args) {
@@ -81,7 +80,6 @@ public class Main {
 
         } catch (Exception ex) {
             System.out.println("Debe ingresar un numero de 1-4");
-//            System.out.println(ex);
             menuPrincipal();
         }
     }
@@ -90,11 +88,69 @@ public class Main {
 
     }
 
-    private static void ingresarNumeroBuscar() {
+    public static int contadorCaracterEnString(char caracter, char[] arrayCaracteres) {
+        int contador = 0;
+        int y = 0;
 
+        for (int k = 0; k < arrayCaracteres.length; k++) {
+            if (caracter == arrayCaracteres[k]) {
+                contador = contador + 1;
+            } else {
+            }
+        }
+        y = contador;
+        return y;
+    }
+
+    private static void ingresarNumeroBuscar() {
+        int contador = 0;
+        String numeroBuscado;
+        String copiaNumeroBuscado;
+        char[] arrayCaracteres;
+        char[] arrayCaracterescopia;
+        Scanner sc = new Scanner(System.in);
+        if (numerosGuardados.size() == 0) {
+            System.out.println("No hay numeros guardados...");
+            contadorDigitosRepetidos();
+        } else {
+            System.out.println("Ingrese el numero que desea buscar...");
+            numeroBuscado = sc.next();
+            if (numeroBuscado.matches("[0-9]+")) {
+                for (String s : numerosGuardados
+                        ) {
+                    if (s.contains(numeroBuscado)) {
+                        arrayCaracteres = s.toCharArray();
+                        int[] cantidadPorCaracter = new int[arrayCaracteres.length];
+                        for (int i = 0; i < arrayCaracteres.length; i++) {
+                            cantidadPorCaracter[i] = contadorCaracterEnString(arrayCaracteres[i], arrayCaracteres);
+                        }
+                        System.out.println(s + " Cantidad por caracter " + Arrays.toString(cantidadPorCaracter));
+                        contadorDigitosRepetidos();
+                    } else {
+
+                    }
+                }
+
+            } else {
+                System.out.println("Debe ingresar un numero!");
+                ingresarNumeroBuscar();
+            }
+        }
     }
 
     private static void ingresarNumero() {
+        String numero;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Ingrese el numero");
+        numero = scanner.next();
+        numero = numero.trim();
+        if (numero.matches("[0-9]+")) {
+            numerosGuardados.add(numero);
+            contadorDigitosRepetidos();
+        } else {
+            System.out.println("Debe ingresar un numero!");
+        }
+
 
     }
 
@@ -147,7 +203,6 @@ public class Main {
 
 
     public static void contadorDigitosRepetidos() {
-        Main m = new Main();
         int opcion;
         Scanner sc = new Scanner(System.in);
         try {
@@ -168,13 +223,13 @@ public class Main {
 
                     break;
                 case 4:
-                    m.menuPrincipal();
+                    menuPrincipal();
                     break;
             }
 
         } catch (Exception ex) {
             System.out.println("Debe ingresar un numero de 1-4");
-            m.menuPrincipal();
+            contadorDigitosRepetidos();
         }
 
     }
